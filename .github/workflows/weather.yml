@@ -1,0 +1,81 @@
+name: Wetterdaten aktualisieren
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-weather:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Repository laden
+      uses: actions/checkout@v4
+
+
+    - name: Wetterdaten abrufen
+      run: |
+
+        curl "https://api.open-meteo.com/v1/forecast?latitude=52.103&longitude=9.356&current_weather=true&daily=weathercode,temperature_2m_max&forecast_days=3&timezone=auto" \
+        -o weather_raw.json
+
+
+    - name: wetter.json erstellen
+      run: |
+
+        python3 <<EOF
+
+        import json
+
+        with open("weather_raw.json") as f:
+            data=json.load(f)
+
+
+        output = {
+            "current": {
+                "temperature": data["current_weather"]["temperature"],
+                "weathercode": data["current_weather"]["weathercode"]
+            },
+
+            "days": []
+        }
+
+
+        for i in range(3):
+
+            output["days"].append({
+
+                "temperature":
+                    data["daily"]["temperature_2m_max"][i],
+
+                "weathercode":
+                    data["daily"]["weathercode"][i]
+
+            })
+
+
+        with open("wetter.json","w") as f:
+            json.dump(output,f,indent=2)
+
+        EOF
+
+
+
+    - name: Änderungen speichern
+      run: |
+
+        git config --global user.name "github-actions"
+
+        git config --global user.email "actions@github.com"
+
+        git add wetter.json
+
+        git commit -m "Wetterdaten aktualisiert" || exit 0
+
+        git push
