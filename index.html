@@ -24,6 +24,7 @@ body {
     height:532px;
 }
 
+
 .logo-bg {
 
     position:absolute;
@@ -39,75 +40,110 @@ body {
 
 }
 
+
+
 /* HEADER */
 
 .header {
+
     position:absolute;
     top:35px;
     width:100%;
     text-align:center;
+
     font-size:45px;
     font-weight:bold;
     letter-spacing:3px;
+
     z-index:2;
+
 }
+
 
 .accent {
     color:#F200A1;
 }
 
 
+
 /* AKTUELLES WETTER */
+
 
 .current {
 
     position:absolute;
     top:90px;
+
     width:100%;
     height:230px;
 
     text-align:center;
+
     z-index:2;
 
 }
+
 
 
 .current-icon svg {
+
     width:260px;
     height:260px;
+
 }
+
 
 
 .current-temp {
+
     font-size:160px;
     font-weight:bold;
     line-height:145px;
+
 }
+
 
 
 .current-text {
+
     margin-bottom:15px;
+
     font-size:30px;
     font-weight:bold;
+
 }
 
 
-/* TAGESVORSCHAU */
+
+
+
+/* VORSCHAU */
+
 
 .forecast {
+
     position:absolute;
+
     bottom:-150px;
+
     width:100%;
+
     display:flex;
+
     justify-content:center;
+
     gap:55px;
+
     z-index:2;
+
 }
+
 
 
 .card {
 
     width:450px;
+
     height:210px;
 
     background:#F200A1;
@@ -121,54 +157,77 @@ body {
 }
 
 
+
 .day {
 
     font-size:38px;
+
     font-weight:bold;
 
 }
 
 
+
 .card svg {
 
     width:120px;
+
     height:120px;
+
     margin:5px;
 
 }
 
+
+
 .card-weather {
 
     display:flex;
+
     justify-content:center;
+
     align-items:center;
+
     gap:25px;
 
     margin-top:10px;
 
 }
 
+
+
 .card-temp {
 
     font-size:90px;
+
     font-weight:bold;
 
 }
 
 
+
+
 /* FOOTER */
+
 
 .footer {
 
     position:absolute;
+
     bottom:-200px;
+
     width:100%;
+
     text-align:center;
+
     font-size:30px;
+
     opacity:.7;
+
     z-index:2;
 
 }
+
 
 </style>
 
@@ -177,44 +236,70 @@ body {
 
 <body>
 
+
 <div class="container">
+
 
 <img class="logo-bg" src="Oeffis_Logo-Bildmarke_rgb_weiss.svg">
 
+
+
 <div class="header">
+
 <span class="accent">ÖFFIS</span> • WETTER
+
 </div>
+
 
 
 
 <div class="current">
 
+
 <div class="current-text">
+
 Jetzt in Hameln-Pyrmont
+
 </div>
+
+
 
 <div style="display:flex; justify-content:center; align-items:center; gap:60px;">
 
+
 <div class="current-icon" id="currentIcon">
+
 ☀
+
 </div>
+
 
 <div class="current-temp" id="currentTemp">
+
 --°C
-</div>
 
 </div>
 
+
 </div>
+
+
+</div>
+
+
 
 
 <div class="forecast" id="forecast"></div>
 
 
 
+
 <div class="footer">
+
 Hameln-Pyrmont • Live Wetterdaten
+
 </div>
+
 
 
 </div>
@@ -224,37 +309,53 @@ Hameln-Pyrmont • Live Wetterdaten
 <script>
 
 
-const icons = {
+var icons = {
+
 
 sun:`
+
 <svg viewBox="0 0 100 100">
+
 
 <circle cx="50" cy="50" r="20" fill="#FFD83D"/>
 
+
 <g stroke="#FFD83D" stroke-width="6" stroke-linecap="round">
+
 
 <line x1="50" y1="8" x2="50" y2="22"/>
 <line x1="50" y1="78" x2="50" y2="92"/>
 
+
 <line x1="8" y1="50" x2="22" y2="50"/>
 <line x1="78" y1="50" x2="92" y2="50"/>
+
 
 <line x1="20" y1="20" x2="30" y2="30"/>
 <line x1="70" y1="70" x2="80" y2="80"/>
 
+
 <line x1="80" y1="20" x2="70" y2="30"/>
 <line x1="30" y1="70" x2="20" y2="80"/>
 
+
 </g>
+
 
 </svg>`,
 
+
+
 cloudSun:`
+
 <svg viewBox="0 0 120 100">
+
 
 <circle cx="40" cy="32" r="22" fill="#FFD83D"/>
 
+
 <g stroke="#FFD83D" stroke-width="6" stroke-linecap="round">
+
 
 <line x1="40" y1="3" x2="40" y2="15"/>
 <line x1="40" y1="49" x2="40" y2="61"/>
@@ -262,13 +363,16 @@ cloudSun:`
 <line x1="11" y1="32" x2="23" y2="32"/>
 <line x1="57" y1="32" x2="69" y2="32"/>
 
+
 <line x1="19" y1="11" x2="28" y2="20"/>
 <line x1="52" y1="44" x2="61" y2="53"/>
 
 <line x1="61" y1="11" x2="52" y2="20"/>
 <line x1="28" y1="44" x2="19" y2="53"/>
 
+
 </g>
+
 
 
 <path d="
@@ -279,147 +383,233 @@ C95 32 70 28 58 45
 C42 39 25 49 25 63
 C25 72 29 78 35 78
 Z"
+
 fill="white"/>
 
+
 </svg>`,
+
+
 
 cloud:`
+
 <svg viewBox="0 0 100 100">
+
 <path d="M25 75h45c15 0 15-25 0-25-5-20-35-15-35 5-15 0-18 20-10 20"
+
 fill="white"/>
+
 </svg>`,
+
+
 
 rain:`
+
 <svg viewBox="0 0 100 100">
+
 <path d="M25 60h45c15 0 15-25 0-25-5-20-35-15-35 5-15 0-18 20-10 20"
+
 fill="white"/>
+
+
 <line x1="35" y1="70" x2="30" y2="90" stroke="#70d9ff" stroke-width="6"/>
+
 <line x1="55" y1="70" x2="50" y2="90" stroke="#70d9ff" stroke-width="6"/>
+
 <line x1="75" y1="70" x2="70" y2="90" stroke="#70d9ff" stroke-width="6"/>
+
+
 </svg>`,
 
+
+
 snow:`
+
 <svg viewBox="0 0 100 100">
+
 <path d="M25 60h45c15 0 15-25 0-25-5-20-35-15-35 5-15 0-18 20-10 20"
+
 fill="white"/>
+
 </svg>`
 
 };
 
-
-
 function getIcon(code){
 
-if(code===0)
-return icons.sun;
+    if(code===0)
+        return icons.sun;
 
-if(code<=3)
-return icons.cloudSun;
+    if(code<=3)
+        return icons.cloudSun;
 
-if(code<=48)
-return icons.cloud;
+    if(code<=48)
+        return icons.cloud;
 
-if(code<=67)
-return icons.rain;
+    if(code<=67)
+        return icons.rain;
 
-if(code<=77)
-return icons.snow;
+    if(code<=77)
+        return icons.snow;
 
-return icons.rain;
+    return icons.rain;
 
 }
+
 
 
 
 function dayName(i){
 
-return [
-"Heute max.",
-"Morgen",
-"Übermorgen"
-][i];
+    return [
+        "Heute max.",
+        "Morgen",
+        "Übermorgen"
+    ][i];
 
 }
 
 
 
-async function loadWeather(){
+
+function loadWeather(){
 
 
-try{
+    var xhr = new XMLHttpRequest();
 
 
-const res = await fetch("wetter.json?"+Date.now());
-
-const data = await res.json();
-
-
-
-document.getElementById("currentTemp").innerHTML =
-Math.round(data.current.temperature)+"°C";
-
-
-document.getElementById("currentIcon").innerHTML =
-getIcon(data.current.weathercode);
+    xhr.open(
+        "GET",
+        "wetter.json?" + new Date().getTime(),
+        true
+    );
 
 
 
-const box=document.getElementById("forecast");
-
-box.innerHTML="";
+    xhr.onreadystatechange = function(){
 
 
-
-data.days.forEach((day,i)=>{
-
-
-let card=document.createElement("div");
-
-card.className="card";
+        if(xhr.readyState === 4){
 
 
-card.innerHTML=`
-
-<div class="day">
-${dayName(i)}
-</div>
-
-<div class="card-weather">
-
-${getIcon(day.weathercode)}
-
-<div class="card-temp">
-${Math.round(day.temperature)}°C
-</div>
-
-</div>
-
-`;
+            if(xhr.status === 200){
 
 
-box.appendChild(card);
+                try{
 
 
-});
+                    var data = JSON.parse(xhr.responseText);
+
+
+
+                    document.getElementById("currentTemp").innerHTML =
+                    Math.round(data.current.temperature)+"°C";
+
+
+
+                    document.getElementById("currentIcon").innerHTML =
+                    getIcon(data.current.weathercode);
+
+
+
+
+                    var box = document.getElementById("forecast");
+
+
+                    box.innerHTML = "";
+
+
+
+
+                    for(var i = 0; i < data.days.length; i++){
+
+
+                        var day = data.days[i];
+
+
+
+                        var card = document.createElement("div");
+
+
+                        card.className = "card";
+
+
+
+                        card.innerHTML =
+
+                        '<div class="day">' +
+
+                        dayName(i) +
+
+                        '</div>' +
+
+
+                        '<div class="card-weather">' +
+
+
+                        getIcon(day.weathercode) +
+
+
+                        '<div class="card-temp">' +
+
+                        Math.round(day.temperature) +
+
+                        "°C" +
+
+
+                        '</div>' +
+
+
+                        '</div>';
+
+
+
+
+                        box.appendChild(card);
+
+
+                    }
+
+
+
+                }
+
+                catch(e){
+
+
+                    document.querySelector(".current-text").innerHTML =
+                    "Wetterdaten nicht verfügbar";
+
+
+                }
+
+
+
+            }
+
+
+        }
+
+
+    };
+
+
+
+    xhr.send();
 
 
 }
 
-catch(e){
 
-document.querySelector(".current-text").innerHTML =
-"Wetterdaten nicht verfügbar";
-
-}
-
-}
 
 
 loadWeather();
+
 
 
 </script>
 
 
 </body>
+
 </html>
