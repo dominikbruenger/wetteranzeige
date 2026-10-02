@@ -5,16 +5,16 @@
   },
   "days": [
     {
-      "temperature": 20.6,
-      "weathercode": 63
-    },
-    {
-      "temperature": 19.2,
+      "temperature": 18.9,
       "weathercode": 63
     },
     {
       "temperature": 20.6,
       "weathercode": 45
+    },
+    {
+      "temperature": 20.7,
+      "weathercode": 3
     }
   ]
 }
