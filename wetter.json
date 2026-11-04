@@ -1,19 +1,19 @@
 {
   "current": {
-    "temperature": 5.8,
-    "weathercode": 0
+    "temperature": 3.9,
+    "weathercode": 2
   },
   "days": [
-    {
-      "temperature": 9.6,
-      "weathercode": 3
-    },
     {
       "temperature": 8.5,
       "weathercode": 3
     },
     {
-      "temperature": 8.4,
+      "temperature": 8.7,
+      "weathercode": 2
+    },
+    {
+      "temperature": 7.7,
       "weathercode": 3
     }
   ]
